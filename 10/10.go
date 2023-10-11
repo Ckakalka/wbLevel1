@@ -2,6 +2,10 @@ package main
 
 import "fmt"
 
+// key=-20 includes [-30;-20)
+// key=-0  includes [-10;0)
+// key=0   includes [0;10)
+// key=10  includes [10;20)
 func getKeyDecade(value float64) string {
 	valueInt := int(value)
 	decade := (valueInt / 10) * 10
@@ -18,7 +22,7 @@ func getKeyDecade(value float64) string {
 	return decadeStr
 }
 
-// O(n)
+// Time complexity: O(n)
 func main() {
 	arr := []float64{-25.4, -20, -27.0, -10, -0.5, 0.5, 19.0, 15.5, 24.5, -21.0, 32.5}
 	decadeToValues := make(map[string][]float64)

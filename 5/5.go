@@ -36,24 +36,21 @@ func main() {
 	n := time.Duration(nInt)
 
 	dataChan := make(chan int)
-	end := false
-	timer := time.NewTimer(n * time.Second)
 	var wg sync.WaitGroup
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		<-timer.C
-		end = true
-	}()
-
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
 		startChanReader(dataChan)
 	}()
-
-	for !end {
-		dataChan <- 123
+	timer := time.NewTimer(n * time.Second)
+loop:
+	for {
+		select {
+		case <-timer.C:
+			break loop
+		default:
+			dataChan <- 123
+		}
 	}
 	close(dataChan)
 	wg.Wait()

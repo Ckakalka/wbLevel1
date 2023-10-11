@@ -7,7 +7,7 @@ import (
 
 type runeSet map[rune]struct{}
 
-func isSymbsUnique(s string) bool {
+func isUniqueSymbs(s string) bool {
 	runes := make(runeSet)
 	for _, r := range s {
 		r = unicode.ToLower(r)
@@ -22,11 +22,11 @@ func isSymbsUnique(s string) bool {
 
 func main() {
 	str := "АБСДа"
-	if isSymbsUnique(str) {
+	if isUniqueSymbs(str) {
 		fmt.Printf("error: %s\n", str)
 	}
 	str = "АБСДЕЙЦУFR"
-	if !isSymbsUnique(str) {
+	if !isUniqueSymbs(str) {
 		fmt.Printf("error: %s\n", str)
 	}
 }

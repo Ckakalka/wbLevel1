@@ -8,6 +8,7 @@ import (
 func main() {
 	a := new(big.Int)
 	a.SetString("99000000000000000000", 10)
+
 	b := big.NewInt(9900000000000)
 
 	sum := new(big.Int)

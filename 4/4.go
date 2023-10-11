@@ -46,7 +46,7 @@ func main() {
 
 	stdOutChan := make(chan struct{}, 1)
 	stdOutChan <- struct{}{}
-	dataChan := make(chan int)
+	dataChan := make(chan int, n)
 	var wg sync.WaitGroup
 	for i := 0; i < n; i++ {
 		wg.Add(1)
@@ -55,20 +55,26 @@ func main() {
 			StartWorker(dataChan, stdOutChan)
 		}()
 	}
-	end := false
+	quit := make(chan struct{})
 	go func() {
 		<-signals
-		end = true
 		<-stdOutChan
 		fmt.Println("SigInt processed...")
 		stdOutChan <- struct{}{}
+		quit <- struct{}{}
 	}()
-	for !end {
-		dataChan <- 123456789
+loop:
+	for {
+		select {
+		case <-quit:
+			break loop
+		default:
+			dataChan <- 123456789
+		}
 	}
-	close(dataChan)
 	<-stdOutChan
 	fmt.Println("Completing the goroutines...")
 	stdOutChan <- struct{}{}
+	close(dataChan)
 	wg.Wait()
 }

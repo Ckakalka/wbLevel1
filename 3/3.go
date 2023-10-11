@@ -13,17 +13,22 @@ func SquareSum(s []int, c chan int) {
 	c <- sum
 }
 
-func main() {
-	arr := []int{2, 4, 6, 8, 10}
-	countSubslices := int(math.Log2(float64(len(arr))))
+func GetArrPartition(s []int) (countSubslices int, countElemsSubslice int) {
+	countSubslices = int(math.Log2(float64(len(s))))
 	if countSubslices == 0 {
 		countSubslices = 1
 	}
-	squareChan := make(chan int)
-	countElemsSubslice := len(arr) / countSubslices
-	if len(arr)%countSubslices != 0 {
+	countElemsSubslice = len(s) / countSubslices
+	if len(s)%countSubslices != 0 {
 		countElemsSubslice++
 	}
+	return countSubslices, countElemsSubslice
+}
+
+func main() {
+	arr := []int{2, 4, 6, 8, 10}
+	countSubslices, countElemsSubslice := GetArrPartition(arr)
+	squareChan := make(chan int, 2)
 	for i := 0; i < countSubslices; i++ {
 		left := i * countElemsSubslice
 		right := (i + 1) * countElemsSubslice

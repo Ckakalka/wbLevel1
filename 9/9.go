@@ -17,7 +17,7 @@ func inputReader(inputChan <-chan int, outputChan chan<- int) {
 }
 
 func main() {
-	arr := []int{1, 2, 3, 4, 5, 6}
+	arr := [...]int{1, 2, 3, 4, 5, 6}
 	inputChan := make(chan int)
 	go inputWriter(arr[:], inputChan)
 	outputChan := make(chan int)

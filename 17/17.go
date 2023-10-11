@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// Time complexity: O(log(n))
+// Memory complexity: O(1)
 func BinSearch(arr []int, key int) bool {
 	left := 0
 	right := len(arr) - 1

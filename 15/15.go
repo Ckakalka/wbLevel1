@@ -1,10 +1,23 @@
 package main
 
+import (
+	"unsafe"
+)
+
 var justString string
 
+func createHugeString(n int) string {
+	p := make([]byte, n)
+	s := *(*string)(unsafe.Pointer(&p))
+	return s
+}
+
 func someFunc() {
-	v := createHugeString(1 << 10)
-	justString = v[:100]
+	str := createHugeString(1 << 10)
+	justStringLen := 100
+	if len(str) >= justStringLen {
+		justString = str[:justStringLen]
+	}
 }
 
 func main() {

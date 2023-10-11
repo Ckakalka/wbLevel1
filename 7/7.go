@@ -61,7 +61,7 @@ func main() {
 	}
 	for k, v := range cMap.m {
 		if v != countWriter {
-			fmt.Printf("error: key=%d value=%d (expected value=2)\n", k, v)
+			fmt.Printf("error: key=%d value=%d (expected value=%d)\n", k, v, countWriter)
 		}
 	}
 }
